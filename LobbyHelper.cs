@@ -203,6 +203,10 @@ namespace Celeste.Mod.CollabUtils2 {
         }
 
         private static void modLevelSetSwitch(ILContext il) {
+            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
+                return;
+            }
+
             ILCursor cursor = new ILCursor(il);
 
             // target check: areaData.GetLevelSet() != levelSet
@@ -222,6 +226,10 @@ namespace Celeste.Mod.CollabUtils2 {
         }
 
         private static void modMapSearch(ILContext il) {
+            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
+                return;
+            }
+
             ILCursor cursor = new ILCursor(il);
 
             // target check: area.HasMode(AreaMode.Normal)
@@ -243,6 +251,10 @@ namespace Celeste.Mod.CollabUtils2 {
         }
 
         private static void modMapListReloadItems(ILContext il) {
+            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
+                return;
+            }
+
             ILCursor cursor = new ILCursor(il);
 
             // target check: area.HasMode((AreaMode)side)
@@ -304,6 +316,10 @@ namespace Celeste.Mod.CollabUtils2 {
         }
 
         private static void modMapListCreateMenu(ILContext il) {
+            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
+                return;
+            }
+
             ILCursor cursor = new ILCursor(il);
 
             // target check: levelSet == "Celeste"
@@ -382,6 +398,12 @@ namespace Celeste.Mod.CollabUtils2 {
                 if (lobby != null) {
                     // we are! we should change the selected level to the matching lobby instead.
                     self.LastArea_Safe = AreaData.Get(lobby).ToKey();
+                }
+            }
+
+            foreach (LevelSetStats levelSetStats in self.LevelSets) {
+                if (levelSetStats != null && IsCollabLevelSet(levelSetStats.Name)) {
+                    levelSetStats.UnlockedAreas = levelSetStats.Areas.Count - 1;
                 }
             }
         }

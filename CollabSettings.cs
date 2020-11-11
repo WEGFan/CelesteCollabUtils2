@@ -14,5 +14,8 @@ namespace Celeste.Mod.CollabUtils2 {
         public BestTimeInJournal BestTimeToDisplayInJournal { get; set; } = BestTimeInJournal.SpeedBerry;
 
         public bool AllowOpenJournalInLobbiesOnGround { get; set; } = false;
+
+        [SettingNeedsRelaunch]
+        public bool ShowCollabLevelSetsInChapterSelect { get; set; } = false;
     }
 }
