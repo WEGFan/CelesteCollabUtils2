@@ -1,4 +1,4 @@
-﻿
+
 namespace Celeste.Mod.CollabUtils2 {
     public class CollabSettings : EverestModuleSettings {
         public enum SpeedBerryTimerPositions { TopLeft, TopCenter };
@@ -12,5 +12,7 @@ namespace Celeste.Mod.CollabUtils2 {
         public bool DisplayEndScreenForAllMaps { get; set; } = false;
 
         public BestTimeInJournal BestTimeToDisplayInJournal { get; set; } = BestTimeInJournal.SpeedBerry;
+
+        public bool AllowOpenJournalInLobbiesOnGround { get; set; } = false;
     }
 }
