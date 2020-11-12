@@ -579,7 +579,7 @@ namespace Celeste.Mod.CollabUtils2 {
             orig(self);
             Player player = self.Tracker.GetEntity<Player>();
             if (CollabModule.Instance.Settings.AllowOpenJournalInLobbiesOnGround && Input.MenuJournal.Pressed &&
-                player != null && !player.Dead && player.OnGround()) {
+                !self.Paused && player != null && !player.Dead && player.OnGround()) {
                 Session session = SaveData.Instance.CurrentSession_Safe;
                 string levelSet = GetLobbyLevelSet(session.Area.GetSID());
                 if (levelSet != null) {
