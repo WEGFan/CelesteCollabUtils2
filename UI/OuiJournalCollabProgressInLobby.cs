@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Monocle;
 using System;
 using System.Collections.Generic;
@@ -109,25 +109,19 @@ namespace Celeste.Mod.CollabUtils2.UI {
                         row.Add(new IconCell("dot"));
                     }
 
-                    if (CollabModule.Instance.Settings.BestTimeToDisplayInJournal == CollabSettings.BestTimeInJournal.SpeedBerry) {
-                        if (CollabMapDataProcessor.SpeedBerries.TryGetValue(item.GetSID(), out CollabMapDataProcessor.SpeedBerryInfo speedBerryInfo)
-                            && CollabModule.Instance.SaveData.SpeedBerryPBs.TryGetValue(item.GetSID(), out long speedBerryPB)) {
+                    if (CollabModule.Instance.Settings.BestTimeToDisplayInJournal != CollabSettings.BestTimeInJournal.ChapterTimer
+                        && CollabMapDataProcessor.SpeedBerries.TryGetValue(item.GetSID(), out CollabMapDataProcessor.SpeedBerryInfo speedBerryInfo)
+                        && CollabModule.Instance.SaveData.SpeedBerryPBs.TryGetValue(item.GetSID(), out long speedBerryPB)) {
 
-                            row.Add(new TextCell(Dialog.Time(speedBerryPB), currentPage.TextJustify, 0.5f, getRankColor(speedBerryInfo, speedBerryPB)));
-                            row.Add(new IconCell(getRankIcon(speedBerryInfo, speedBerryPB)));
-                            sumOfBestTimes += speedBerryPB;
-                        } else {
-                            row.Add(new IconCell("dot")).Add(null);
-                            allSpeedBerriesDone = false;
-                        }
+                        row.Add(new TextCell(Dialog.Time(speedBerryPB), currentPage.TextJustify, 0.5f, getRankColor(speedBerryInfo, speedBerryPB)));
+                        row.Add(new IconCell(getRankIcon(speedBerryInfo, speedBerryPB)));
+                        sumOfBestTimes += speedBerryPB;
+                    } else if (CollabModule.Instance.Settings.BestTimeToDisplayInJournal != CollabSettings.BestTimeInJournal.SpeedBerry && item.Modes[0].BestTime > 0f) {
+                        row.Add(new TextCell(Dialog.Time(item.Modes[0].BestTime), currentPage.TextJustify, 0.5f, currentPage.TextColor)).Add(null);
+                        sumOfBestTimes += item.Modes[0].BestTime;
                     } else {
-                        if (item.Modes[0].BestTime > 0f) {
-                            row.Add(new TextCell(Dialog.Time(item.Modes[0].BestTime), currentPage.TextJustify, 0.5f, currentPage.TextColor)).Add(null);
-                            sumOfBestTimes += item.Modes[0].BestTime;
-                        } else {
-                            row.Add(new IconCell("dot")).Add(null);
-                            allSpeedBerriesDone = false;
-                        }
+                        row.Add(new IconCell("dot")).Add(null);
+                        allSpeedBerriesDone = false;
                     }
 
                     totalStrawberries += item.TotalStrawberries;

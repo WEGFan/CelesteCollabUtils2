@@ -90,21 +90,17 @@ namespace Celeste.Mod.CollabUtils2.UI {
                         lobbyTotalTime += lobbyMap.TotalTimePlayed;
                         lobbyAllMapsCompletedInSingleRun &= lobbyMap.Modes[0].SingleRunCompleted;
 
-                        if (CollabModule.Instance.Settings.BestTimeToDisplayInJournal == CollabSettings.BestTimeInJournal.SpeedBerry) {
-                            if (CollabMapDataProcessor.SpeedBerries.TryGetValue(lobbyMap.GetSID(), out CollabMapDataProcessor.SpeedBerryInfo mapSpeedBerryInfo)
-                                && CollabModule.Instance.SaveData.SpeedBerryPBs.TryGetValue(lobbyMap.GetSID(), out long mapSpeedBerryPB)) {
+                        if (CollabModule.Instance.Settings.BestTimeToDisplayInJournal != CollabSettings.BestTimeInJournal.ChapterTimer
+                            && CollabMapDataProcessor.SpeedBerries.TryGetValue(lobbyMap.GetSID(), out CollabMapDataProcessor.SpeedBerryInfo mapSpeedBerryInfo)
+                            && CollabModule.Instance.SaveData.SpeedBerryPBs.TryGetValue(lobbyMap.GetSID(), out long mapSpeedBerryPB)) {
 
-                                lobbySpeedBerryLevel = Math.Max(getRankLevel(mapSpeedBerryInfo, mapSpeedBerryPB), lobbySpeedBerryLevel);
-                                lobbySumOfBestTimes += mapSpeedBerryPB;
-                            } else {
-                                lobbySpeedBerryLevel = 4;
-                            }
+                            lobbySpeedBerryLevel = Math.Max(getRankLevel(mapSpeedBerryInfo, mapSpeedBerryPB), lobbySpeedBerryLevel);
+                            lobbySumOfBestTimes += mapSpeedBerryPB;
+                        } else if (CollabModule.Instance.Settings.BestTimeToDisplayInJournal != CollabSettings.BestTimeInJournal.SpeedBerry && lobbyMap.Modes[0].BestTime > 0f) {
+                            lobbySumOfBestTimes += lobbyMap.Modes[0].BestTime;
+                            lobbySpeedBerryLevel = 4;
                         } else {
-                            if (lobbyMap.Modes[0].BestTime > 0f) {
-                                lobbySumOfBestTimes += lobbyMap.Modes[0].BestTime;
-                            } else {
-                                lobbySpeedBerryLevel = 4;
-                            }
+                            lobbySpeedBerryLevel = 4;
                         }
 
                         bool goldenBerryNotObtained = !lobbyMap.Modes[0].Strawberries.Any(berry => lobbyAreaData.Mode[0].MapData.Goldenberries.Any(golden => golden.ID == berry.ID && golden.Level.Name == berry.Level));
@@ -176,15 +172,13 @@ namespace Celeste.Mod.CollabUtils2.UI {
 
                     if (lobbyMapLevelSet == null) {
                         row.Add(new TextCell("-", TextJustify, 0.5f, TextColor)).Add(null);
-                    } else if (lobbySpeedBerryLevel < 4) {
-                        if (CollabModule.Instance.Settings.BestTimeToDisplayInJournal == CollabSettings.BestTimeInJournal.SpeedBerry) {
-                            row.Add(new TextCell(Dialog.Time(lobbySumOfBestTimes), TextJustify, 0.5f, getRankColor(lobbySpeedBerryLevel)));
-                            row.Add(new IconCell(getRankIcon(lobbySpeedBerryLevel)));
-                            sumOfBestTimes += lobbySumOfBestTimes;
-                        } else {
-                            row.Add(new TextCell(Dialog.Time(lobbySumOfBestTimes), TextJustify, 0.5f, TextColor)).Add(null);
-                            sumOfBestTimes += lobbySumOfBestTimes;
-                        }
+                    } else if (lobbySpeedBerryLevel < 4 && CollabModule.Instance.Settings.BestTimeToDisplayInJournal != CollabSettings.BestTimeInJournal.ChapterTimer) {
+                        row.Add(new TextCell(Dialog.Time(lobbySumOfBestTimes), TextJustify, 0.5f, getRankColor(lobbySpeedBerryLevel)));
+                        row.Add(new IconCell(getRankIcon(lobbySpeedBerryLevel)));
+                        sumOfBestTimes += lobbySumOfBestTimes;
+                    } else if (lobbyAllMapsCompletedInSingleRun && CollabModule.Instance.Settings.BestTimeToDisplayInJournal != CollabSettings.BestTimeInJournal.SpeedBerry) {
+                        row.Add(new TextCell(Dialog.Time(lobbySumOfBestTimes), TextJustify, 0.5f, TextColor)).Add(null);
+                        sumOfBestTimes += lobbySumOfBestTimes;
                     } else {
                         row.Add(new IconCell("dot")).Add(null);
                         allSpeedBerriesDone = false;
