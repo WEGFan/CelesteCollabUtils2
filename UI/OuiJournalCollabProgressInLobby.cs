@@ -72,8 +72,11 @@ namespace Celeste.Mod.CollabUtils2.UI {
                     }
 
                     Row row = currentPage.table.AddRow()
-                        .Add(new TextCell(Dialog.Clean(areaData.Name), new Vector2(1f, 0.5f), 0.6f, currentPage.TextColor))
-                        .Add(null)
+                        .Add(new TextCell(Dialog.Clean(areaData.Name), new Vector2(1f, 0.5f), 0.6f, currentPage.TextColor));
+                    if (CollabModule.Instance.Settings.ShowLevelIconsInJournal) {
+                        row.Add(new TextureCell(GFX.Gui[areaData.Icon], 64f));
+                    }
+                    row.Add(null)
                         .Add(new IconCell(item.Modes[0].HeartGem ? heartTexture : "dot"))
                         .Add(new TextCell(strawberryText, currentPage.TextJustify, 0.5f, currentPage.TextColor));
 
@@ -146,8 +149,11 @@ namespace Celeste.Mod.CollabUtils2.UI {
                 currentPage.table.AddRow();
                 Row totalsRow = currentPage.table.AddRow()
                     .Add(new TextCell(Dialog.Clean("journal_totals"), new Vector2(1f, 0.5f), 0.7f, currentPage.TextColor)).Add(null)
-                    .Add(null)
-                    .Add(new TextCell(totalStrawberries.ToString(), currentPage.TextJustify, 0.6f, currentPage.TextColor))
+                    .Add(null);
+                if (CollabModule.Instance.Settings.ShowLevelIconsInJournal) {
+                    totalsRow.Add(null);
+                }
+                totalsRow.Add(new TextCell(totalStrawberries.ToString(), currentPage.TextJustify, 0.6f, currentPage.TextColor))
                     .Add(new TextCell(Dialog.Deaths(totalDeaths), currentPage.TextJustify, 0.6f, currentPage.TextColor))
                     .Add(new TextCell(allLevelsDone ? Dialog.Deaths(sumOfBestDeaths) : "-", currentPage.TextJustify, 0.6f, currentPage.TextColor))
                     .Add(new TextCell(Dialog.Time(totalTime), currentPage.TextJustify, 0.6f, currentPage.TextColor))
@@ -170,9 +176,14 @@ namespace Celeste.Mod.CollabUtils2.UI {
             string minDeathsTexture = MTN.Journal.Has("CollabUtils2MinDeaths/" + levelSet) ? "CollabUtils2MinDeaths/" + levelSet : "CollabUtils2MinDeaths/SpringCollab2020/1-Beginner";
 
             PageTexture = "page";
-            table = new Table()
-                .AddColumn(new TextCell(Dialog.Clean("journal_progress"), new Vector2(0f, 0.5f), 1f, Color.Black * 0.7f, 420f))
-                .AddColumn(new EmptyCell(20f))
+            table = new Table();
+            if (CollabModule.Instance.Settings.ShowLevelIconsInJournal) {
+                table.AddColumn(new TextCell(Dialog.Clean("journal_progress"), new Vector2(0f, 0.5f), 1f, Color.Black * 0.7f, 420f - 64f))
+                    .AddColumn(new EmptyCell(64f));
+            } else {
+                table.AddColumn(new TextCell(Dialog.Clean("journal_progress"), new Vector2(0f, 0.5f), 1f, Color.Black * 0.7f, 420f));
+            }
+            table.AddColumn(new EmptyCell(20f))
                 .AddColumn(new EmptyCell(64f))
                 .AddColumn(new IconCell("strawberry", 150f))
                 .AddColumn(new IconCell(skullTexture, 100f))

@@ -1,4 +1,4 @@
-﻿
+
 namespace Celeste.Mod.CollabUtils2 {
     public class CollabSettings : EverestModuleSettings {
         public enum SpeedBerryTimerPositions { TopLeft, TopCenter };
@@ -17,5 +17,7 @@ namespace Celeste.Mod.CollabUtils2 {
 
         [SettingNeedsRelaunch]
         public bool ShowCollabLevelSetsInChapterSelect { get; set; } = false;
+
+        public bool ShowLevelIconsInJournal { get; set; } = false;
     }
 }
