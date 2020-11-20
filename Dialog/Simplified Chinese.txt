@@ -1,0 +1,38 @@
+modname_collabutils2= Collab Utils 2
+modoptions_collab_title= Collab Utils 2
+
+collabutils2_returntolobby= Return to Lobby
+collabutils2_restartspeedberry= Restart Speed Berry
+
+collabutils2_returntolobby_confirm_title= RETURN TO LOBBY?
+
+collabutils2_speedberry_gold= Gold:
+collabutils2_speedberry_silver= Silver:
+collabutils2_speedberry_bronze= Bronze:
+collabutils2_speedberry_timeranout= Time ran out!
+
+collabutils2_speedberry_optionmessage=
+	You can change the speedberry timer position in {# 9B3FB5}Mod Options{#}.
+
+modoptions_collab_speedberrytimerposition= 速通草莓计时器位置
+modoptions_collab_speedberrytimerposition_topleft= 左上角
+modoptions_collab_speedberrytimerposition_topcenter= 正上方
+modoptions_collab_hidespeedberrytimerduringgameplay= 游戏时隐藏速通草莓计时器
+
+modoptions_collab_displayendscreenforallmaps= 所有地图显示过关界面
+modoptions_collab_displayendscreenforallmaps_description= 在 speedrun.com 上提交成绩时需要打开此选项来进行审核
+
+modoptions_collab_besttimetodisplayinjournal= 日志最快过关时间显示
+modoptions_collab_besttimetodisplayinjournal_speedberry= 速通草莓
+modoptions_collab_besttimetodisplayinjournal_chaptertimer= 章节时间
+modoptions_collab_besttimetodisplayinjournal_mixed= 混合
+
+modoptions_collab_allowopenjournalinlobbiesonground= 大厅地面上按日志键打开日志
+modoptions_collab_showcollablevelsetsinchapterselect= 地图列表显示 Collab 关卡
+modoptions_collab_showcollablevelsetsinchapterselect_description= 在地图列表、地图搜索界面和切换地图集时显示被隐藏掉的 Collab 关卡
+modoptions_collab_showleveliconsinjournal= 日志显示关卡图标
+modoptions_collab_levelselectioninjournal= 日志选关
+
+modoptions_collab_modificationswarning=
+	警告：这是一个修改版的 Collab Utils 2
+	如果你需要在 speedrun.com 上提交成绩，你可能需要切换成原版 Collab Utils 2
