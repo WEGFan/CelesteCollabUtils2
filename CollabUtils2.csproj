@@ -4,6 +4,7 @@
     <TargetFrameworks>net452</TargetFrameworks>
     <AssemblyName>CollabUtils2</AssemblyName>
     <RootNamespace>Celeste.Mod.CollabUtils2</RootNamespace>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
