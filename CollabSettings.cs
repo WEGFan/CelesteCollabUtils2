@@ -21,6 +21,7 @@ namespace Celeste.Mod.CollabUtils2 {
         public bool AllowOpenJournalInLobbiesOnGround { get; set; } = true;
 
         [SettingNeedsRelaunch]
+        [SettingSubText("modoptions_collab_showcollablevelsetsinchapterselect_description")]
         public bool ShowCollabLevelSetsInChapterSelect { get; set; } = false;
 
         public bool ShowLevelIconsInJournal { get; set; } = true;

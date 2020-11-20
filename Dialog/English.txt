@@ -1,4 +1,4 @@
-modname_collabutils2= Collab Utils 2
+﻿modname_collabutils2= Collab Utils 2
 modoptions_collab_title= Collab Utils 2
 
 collabutils2_returntolobby= Return to Lobby
@@ -25,6 +25,12 @@ modoptions_collab_displayendscreenforallmaps_description= Required for verificat
 modoptions_collab_besttimetodisplayinjournal= Best Time To Display In Journal
 modoptions_collab_besttimetodisplayinjournal_speedberry= Speed Berry
 modoptions_collab_besttimetodisplayinjournal_chaptertimer= Chapter Time
+modoptions_collab_besttimetodisplayinjournal_mixed= Mixed
+modoptions_collab_allowopenjournalinlobbiesonground= Allow Open Journal In Lobbies On Ground
+modoptions_collab_showcollablevelsetsinchapterselect= Show Collab Level Sets In Map List
+modoptions_collab_showcollablevelsetsinchapterselect_description= Show hidden collab levels in map list and search menu, and enable level set switching
+modoptions_collab_showleveliconsinjournal= Show Level Icons In Journal
+modoptions_collab_levelselectioninjournal= Level Selection In Journal
 
 modoptions_collab_modificationswarning=
 	WARNING: This is a modification version of Collab Utils 2
