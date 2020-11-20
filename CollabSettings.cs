@@ -19,5 +19,7 @@ namespace Celeste.Mod.CollabUtils2 {
         public bool ShowCollabLevelSetsInChapterSelect { get; set; } = false;
 
         public bool ShowLevelIconsInJournal { get; set; } = false;
+
+        public bool LevelSelectionInJournal { get; set; } = false;
     }
 }

@@ -3,11 +3,14 @@ using Monocle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Celeste.Mod.CollabUtils2.Triggers;
 
 namespace Celeste.Mod.CollabUtils2.UI {
     class OuiJournalCollabProgressInLobby : OuiJournalPage {
 
         private Table table;
+        private List<string> sidList = new List<string>();
+        private bool separatorAdded = false;
 
         private static Color getRankColor(CollabMapDataProcessor.SpeedBerryInfo speedBerryInfo, long pb) {
             float pbSeconds = (float) TimeSpan.FromTicks(pb).TotalSeconds;
@@ -51,10 +54,12 @@ namespace Celeste.Mod.CollabUtils2.UI {
             foreach (AreaStats item in SaveData.Instance.Areas_Safe) {
                 AreaData areaData = AreaData.Get(item.ID_Safe);
                 if (!areaData.Interlude_Safe) {
+                    currentPage.sidList.Add(areaData.GetSID());
                     if (LobbyHelper.IsHeartSide(areaData.GetSID())) {
                         if (allMapsDone || item.TotalTimePlayed > 0) {
                             // add a separator, like the one between regular maps and Farewell
                             currentPage.table.AddRow();
+                            currentPage.separatorAdded = true;
                         } else {
                             // all maps weren't complete yet, and the heart side was never accessed: hide the heart side for now.
                             continue;
@@ -197,7 +202,48 @@ namespace Celeste.Mod.CollabUtils2.UI {
             base.Redraw(buffer);
             Draw.SpriteBatch.Begin();
             table.Render(new Vector2(60f, 20f));
+
+            if (CollabModule.Instance.Settings.LevelSelectionInJournal && sidList.Count > 0) {
+                MTexture mtexture = MTN.Journal["poemArrow"];
+                Vector2 position = new Vector2(50f, GetY(slider));
+                mtexture.DrawCentered(position, Color.White, 1f);
+            }
             Draw.SpriteBatch.End();
         }
+
+        public float GetY(float index) {
+            float separatorAddition = 15f * Calc.LerpClamp(0f, 1f, index - (sidList.Count - 2));
+            return 130f + 60f * index + 20f + (separatorAdded ? separatorAddition : 0f);
+        }
+
+        private float slider;
+
+        private int index;
+
+        public override void Update() {
+            base.Update();
+
+            if (!CollabModule.Instance.Settings.LevelSelectionInJournal || sidList.Count == 0) {
+                return;
+            }
+
+            InGameOverworldHelper.OverworldWrapper.WrappedScene.GetUI<OuiJournal>().PageTurningLocked = JournalLevelSelectionHelper.IsSelectingLevel;
+
+            if (Input.MenuConfirm.Pressed) {
+                Player player = Engine.Scene.Tracker.GetEntity<Player>();
+                string map = sidList[index];
+                JournalLevelSelectionHelper.OpenChapterPanel(player, map, ChapterPanelTrigger.ReturnToLobbyMode.SetReturnToHere);
+            }
+            if (!JournalLevelSelectionHelper.IsSelectingLevel) {
+                if (Input.MenuUp.Pressed && index > 0) {
+                    index--;
+                } else if (Input.MenuDown.Pressed && index + 1 < sidList.Count) {
+                    index++;
+                }
+            }
+            slider = Calc.Approach(slider, index, 16f * Engine.DeltaTime);
+            Redraw(Journal.CurrentPageBuffer);
+        }
+
     }
 }

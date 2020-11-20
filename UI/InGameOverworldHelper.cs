@@ -24,6 +24,13 @@ namespace Celeste.Mod.CollabUtils2.UI {
 
         private static AreaKey? lastArea;
 
+        public static SceneWrappingEntity<Overworld> OverworldWrapper => overworldWrapper;
+
+        public static AreaKey? LastArea {
+            get => lastArea;
+            set => lastArea = value;
+        }
+
         private static readonly Type t_OuiChapterPanelOption = typeof(OuiChapterPanel)
             .GetNestedType("Option", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
         private static MethodInfo m_PlayExpandSfx = typeof(OuiChapterPanel)
@@ -472,8 +479,11 @@ namespace Celeste.Mod.CollabUtils2.UI {
             Overworld overworld = overworldWrapper?.WrappedScene;
             if (overworld == null)
                 yield break;
+            Overworld levelSelectOverworld = JournalLevelSelectionHelper.levelSelectoverworldWrapper?.WrappedScene;
 
-            while (overworld.Current == panel || overworld.Last == panel || overworld.Next == panel) {
+            while (overworld.Current == panel || overworld.Last == panel || overworld.Next == panel ||
+                levelSelectOverworld.Current == panel || levelSelectOverworld.Last == panel || levelSelectOverworld.Next == panel ||
+                JournalLevelSelectionHelper.IsSelectingLevel) {
                 icon.Position = panel.Position + panel.IconOffset;
                 yield return null;
             }
