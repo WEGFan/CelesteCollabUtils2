@@ -1,4 +1,4 @@
-﻿modname_collabutils2= Collab Utils 2
+modname_collabutils2= Collab Utils 2
 modoptions_collab_title= Collab Utils 2
 
 collabutils2_returntolobby= Return to Lobby
@@ -25,6 +25,11 @@ modoptions_collab_displayendscreenforallmaps_description= Required for verificat
 modoptions_collab_besttimetodisplayinjournal= Best Time To Display In Journal
 modoptions_collab_besttimetodisplayinjournal_speedberry= Speed Berry
 modoptions_collab_besttimetodisplayinjournal_chaptertimer= Chapter Time
+
+modoptions_collab_modificationswarning=
+	WARNING: This is a modification version of Collab Utils 2
+	You may need to switch back to original version
+	if you are submitting to speedrun.com
 
 # SHIP COLLAB-SPECIFIC DIALOG WITH THE COLLAB MOD, NOT THE COLLAB UTILS.
 
