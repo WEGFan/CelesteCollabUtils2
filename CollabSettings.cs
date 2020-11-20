@@ -13,13 +13,13 @@ namespace Celeste.Mod.CollabUtils2 {
 
         public BestTimeInJournal BestTimeToDisplayInJournal { get; set; } = BestTimeInJournal.SpeedBerry;
 
-        public bool AllowOpenJournalInLobbiesOnGround { get; set; } = false;
+        public bool AllowOpenJournalInLobbiesOnGround { get; set; } = true;
 
         [SettingNeedsRelaunch]
         public bool ShowCollabLevelSetsInChapterSelect { get; set; } = false;
 
-        public bool ShowLevelIconsInJournal { get; set; } = false;
+        public bool ShowLevelIconsInJournal { get; set; } = true;
 
-        public bool LevelSelectionInJournal { get; set; } = false;
+        public bool LevelSelectionInJournal { get; set; } = true;
     }
 }
