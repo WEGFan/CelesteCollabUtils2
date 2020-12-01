@@ -13,6 +13,7 @@ If anything is wrong or unclear, yell at max480 (max480#4596 on [the Celeste Dis
 - [Entities](#entities)
   - [Golden Berry Respawn Points](#golden-berry-respawn-points)
   - [Silver Berries](#silver-berries)
+  - [Silver Blocks](#silver-blocks)
   - [Mini Hearts](#mini-hearts)
   - [Mini Heart Doors](#mini-heart-doors)
   - [Rainbow Berries](#rainbow-berries)
@@ -113,6 +114,10 @@ Those work pretty much like golden berries, and can be collected by crossing a G
 
 They are intended for collab entries, and count towards unlocking the rainbow berry.
 
+### Silver Blocks
+
+Same as Golden Blocks, except appearing only when the player carries a silver berry. (Golden Blocks appear when the player carries a golden, silver or speed berry, for technical reasons.)
+
 ### Mini Hearts
 
 They are collected like regular hearts, except doing so will not display any heart message, and will send you back to the lobby instead of the overworld. So, this is meant to end collab entries.
@@ -151,7 +156,9 @@ You can also use custom ones by dropping them somewhere in `Graphics/Atlases/Gui
 
 You can pick which heart to use by changing the `path`: you can use the vanilla hearts (`collectables/heartgem/0/` with 0 = blue, 1 = red, 2 = yellow, 3 = grey/ghost), ones from the collab (`CollabUtils2/crystalHeart/expert/` for orange and `CollabUtils2/crystalHeart/grandmaster/` for purple), or custom ones by dropping them somewhere in `Graphics/Atlases/Gui/YourCollabName`.
 
-If you use one of the vanilla crystal heart sprites (`collectables/heartgem/1/`, `collectables/heartgem/2/`) or the "expert" or "grandmaster" sprites that ship with the collab utils (`CollabUtils2/crystalHeart/expert/`, `CollabUtils2/crystalHeart/grandmaster/`), the text color on the poem screen will be changed accordingly to red, yellow, orange or purple.
+If you use one of the vanilla crystal heart sprites (`collectables/heartgem/1/`, `collectables/heartgem/2/`) or the "expert" or "grandmaster" sprites that ship with the collab utils (`CollabUtils2/crystalHeart/expert/`, `CollabUtils2/crystalHeart/grandmaster/`), the text color on the poem screen will be changed accordingly to red, yellow, orange or purple. 
+
+If you want a custom text color on the poem screen, include `poemtextcolor_[hexcode]` somewhere in the texture path: for example `path="MyMod/customcrystalheart_poemtextcolor_ff0000/"`.
 
 ### Mini Heart Doors
 
