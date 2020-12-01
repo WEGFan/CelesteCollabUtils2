@@ -33,7 +33,7 @@ namespace Celeste.Mod.CollabUtils2 {
                 TextColor = Color.OrangeRed
             };
             item.HeightExtra = (item.Title.Split('\n').Length - 1) * ActiveFont.LineHeight * 0.6f;
-            item.Offset = new Vector2(0f, -item.HeightExtra / 2);
+            item.Offset = new Vector2(0f, -MathHelper.Max(0f, -16f + item.HeightExtra) + textMenu.ItemSpacing);
             textMenu.Add(item);
         }
     }
