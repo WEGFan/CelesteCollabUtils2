@@ -18,7 +18,9 @@ namespace Celeste.Mod.CollabUtils2 {
 
         private static bool unpauseTimerOnNextAction = false;
 
-        private static ILHook hookOnOuiFileSelectRender;
+        private static ILHook hookOnOuiFileSelectRenderDisplayName;
+        private static ILHook hookOnOuiFileSelectRenderStrawberryStamp;
+        private static ILHook hookOnOuiFileSelectSlotGolden;
         private static ILHook hookOnOuiJournalPoemLines;
         private static ILHook hookOnLevelSetSwitch;
 
@@ -134,8 +136,10 @@ namespace Celeste.Mod.CollabUtils2 {
             Everest.Events.Journal.OnEnter += onJournalEnter;
             On.Celeste.OuiFileSelectSlot.Show += onOuiFileSelectSlotShow;
 
-            hookOnOuiFileSelectRender = new ILHook(typeof(OuiFileSelectSlot).GetMethod("orig_Render"), modSelectSlotLevelSetDisplayName);
+            hookOnOuiFileSelectRenderDisplayName = new ILHook(typeof(OuiFileSelectSlot).GetMethod("orig_Render"), modSelectSlotLevelSetDisplayName);
+            hookOnOuiFileSelectRenderStrawberryStamp = new ILHook(typeof(OuiFileSelectSlot).GetMethod("orig_Render"), modSelectSlotCollectedStrawberries);
             hookOnOuiJournalPoemLines = new ILHook(typeof(OuiJournalPoem).GetNestedType("PoemLine", BindingFlags.NonPublic).GetMethod("Render"), modJournalPoemHeartColors);
+            hookOnOuiFileSelectSlotGolden = new ILHook(typeof(OuiFileSelectSlot).GetMethod("get_Golden", BindingFlags.NonPublic | BindingFlags.Instance), modSelectSlotCollectedStrawberries);
 
             // allowing player to open journal when on ground
             On.Celeste.Level.Update += onLevelUpdate;
@@ -159,8 +163,10 @@ namespace Celeste.Mod.CollabUtils2 {
             Everest.Events.Journal.OnEnter -= onJournalEnter;
             On.Celeste.OuiFileSelectSlot.Show -= onOuiFileSelectSlotShow;
 
-            hookOnOuiFileSelectRender?.Dispose();
+            hookOnOuiFileSelectRenderDisplayName?.Dispose();
+            hookOnOuiFileSelectRenderStrawberryStamp?.Dispose();
             hookOnOuiJournalPoemLines?.Dispose();
+            hookOnOuiFileSelectSlotGolden?.Dispose();
 
             On.Celeste.Level.Update -= onLevelUpdate;
         }
@@ -542,6 +548,25 @@ namespace Celeste.Mod.CollabUtils2 {
                     string collab = collabNames.FirstOrDefault(collabName => self.SaveData?.LevelSet.StartsWith($"{collabName}/") ?? false);
                     if (collab != null) {
                         return $"{collab.DialogKeyify()}_0_Lobbies";
+                    }
+                    return orig;
+                });
+            }
+        }
+
+        private static void modSelectSlotCollectedStrawberries(ILContext il) {
+            ILCursor cursor = new ILCursor(il);
+
+            while (cursor.TryGotoNext(MoveType.After, instr => instr.MatchCallvirt<SaveData>("get_TotalStrawberries_Safe"))) {
+                Logger.Log("CollabUtils2/LobbyHelper", $"Replacing total strawberry count for stamps at {cursor.Index} in IL for {il.Method.Name}");
+
+                cursor.Emit(OpCodes.Ldarg_0);
+                cursor.EmitDelegate<Func<int, OuiFileSelectSlot, int>>((orig, self) => {
+                    // if we are in a collab, we want to get the strawberries total over the collab (with all associated level sets), not just the level set total.
+                    // luckily, we stored it in self.Strawberries.Amount earlier.
+                    string collab = collabNames.FirstOrDefault(collabName => self.SaveData?.LevelSet.StartsWith($"{collabName}/") ?? false);
+                    if (collab != null) {
+                        return self.Strawberries.Amount;
                     }
                     return orig;
                 });
