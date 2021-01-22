@@ -97,7 +97,7 @@ namespace Celeste.Mod.CollabUtils2.UI {
 
             level.Add(levelSelectoverworldWrapper);
             new DynData<Overworld>(levelSelectoverworldWrapper.WrappedScene).Set("collabInGameForcedArea", area);
-            // new DynData<Overworld>(InGameOverworldHelper.overworldWrapper.WrappedScene).Set("collabInGameForcedArea", area);
+            new DynData<Overworld>(InGameOverworldHelper.OverworldWrapper.WrappedScene).Set("collabInGameForcedArea", area);
             callback?.Invoke(levelSelectoverworldWrapper.WrappedScene);
 
             levelSelectoverworldWrapper.Add(new Coroutine(UpdateRoutine()));
