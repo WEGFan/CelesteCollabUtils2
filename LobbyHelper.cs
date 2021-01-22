@@ -209,10 +209,6 @@ namespace Celeste.Mod.CollabUtils2 {
         }
 
         private static void modLevelSetSwitch(ILContext il) {
-            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
-                return;
-            }
-
             ILCursor cursor = new ILCursor(il);
 
             // target check: areaData.GetLevelSet() != levelSet
@@ -227,15 +223,11 @@ namespace Celeste.Mod.CollabUtils2 {
                 // becomes: areaData.GetLevelSet() != levelSet && !IsCollabLevelSet(areaData.GetLevelSet())
                 cursor.Emit(OpCodes.Ldloc_S, (byte) 6);
                 cursor.EmitDelegate<Func<bool, AreaData, bool>>((orig, areaData) =>
-                    orig && !IsCollabLevelSet(areaData.GetLevelSet()));
+                    orig && (!IsCollabLevelSet(areaData.GetLevelSet()) || CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect));
             }
         }
 
         private static void modMapSearch(ILContext il) {
-            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
-                return;
-            }
-
             ILCursor cursor = new ILCursor(il);
 
             // target check: area.HasMode(AreaMode.Normal)
@@ -252,15 +244,11 @@ namespace Celeste.Mod.CollabUtils2 {
                 cursor.Emit(OpCodes.Ldloc_S, (byte) 13);
                 cursor.Emit(OpCodes.Ldfld, cursor.Instrs[cursor.Index - 4].Operand as FieldReference);
                 cursor.EmitDelegate<Func<bool, AreaData, bool>>((orig, areaData) =>
-                    orig && !IsCollabLevelSet(areaData.GetLevelSet()));
+                    orig && (!IsCollabLevelSet(areaData.GetLevelSet()) || CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect));
             }
         }
 
         private static void modMapListReloadItems(ILContext il) {
-            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
-                return;
-            }
-
             ILCursor cursor = new ILCursor(il);
 
             // target check: area.HasMode((AreaMode)side)
@@ -278,7 +266,7 @@ namespace Celeste.Mod.CollabUtils2 {
                 cursor.Emit(OpCodes.Ldloc_S, (byte) 12);
                 cursor.Emit(OpCodes.Ldfld, cursor.Instrs[cursor.Index - 5].Operand as FieldReference);
                 cursor.EmitDelegate<Func<bool, AreaData, bool>>((orig, areaData) =>
-                    orig && !IsCollabLevelSet(areaData.GetLevelSet()));
+                    orig && (!IsCollabLevelSet(areaData.GetLevelSet()) || CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect));
             }
         }
 
@@ -322,10 +310,6 @@ namespace Celeste.Mod.CollabUtils2 {
         }
 
         private static void modMapListCreateMenu(ILContext il) {
-            if (CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect) {
-                return;
-            }
-
             ILCursor cursor = new ILCursor(il);
 
             // target check: levelSet == "Celeste"
@@ -339,7 +323,7 @@ namespace Celeste.Mod.CollabUtils2 {
                 // becomes: levelSet == "Celeste" || IsCollabLevelSet(levelSet)
                 cursor.Emit(OpCodes.Ldloc_1);
                 cursor.EmitDelegate<Func<bool, string, bool>>((orig, levelSet) =>
-                    orig || IsCollabLevelSet(levelSet));
+                    orig || (IsCollabLevelSet(levelSet) && !CollabModule.Instance.Settings.ShowCollabLevelSetsInChapterSelect));
             }
         }
 
