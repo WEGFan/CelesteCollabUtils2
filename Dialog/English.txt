@@ -28,7 +28,9 @@ modoptions_collab_besttimetodisplayinjournal_chaptertimer= Chapter Time
 modoptions_collab_besttimetodisplayinjournal_mixed= Mixed
 modoptions_collab_allowopenjournalinlobbiesonground= Allow Open Journal In Lobbies On Ground
 modoptions_collab_showcollablevelsetsinchapterselect= Show Collab Level Sets In Map List
-modoptions_collab_showcollablevelsetsinchapterselect_description= Show hidden collab levels in map list and search menu, and enable level set switching
+modoptions_collab_showcollablevelsetsinchapterselect_description=
+	Show hidden collab levels in map list and search menu
+	and enable level set switching
 modoptions_collab_showleveliconsinjournal= Show Level Icons In Journal
 modoptions_collab_levelselectioninjournal= Level Selection In Journal
 
