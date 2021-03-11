@@ -19,9 +19,6 @@ namespace Celeste.Mod.CollabUtils2.UI {
 
         public static SpriteBank HeartSpriteBank;
 
-        private static bool skipSetMusic;
-        private static bool skipSetAmbience;
-
         private static AreaKey? lastArea;
 
         public static SceneWrappingEntity<Overworld> OverworldWrapper => overworldWrapper;
@@ -120,8 +117,8 @@ namespace Celeste.Mod.CollabUtils2.UI {
         }
 
         private static bool OnSetMusic(On.Celeste.Audio.orig_SetMusic orig, string path, bool startPlaying, bool allowFadeOut) {
-            if (skipSetMusic) {
-                skipSetMusic = false;
+            // while the in-game chapter panel / journal is open, block all music changes except for muting it (which happens when entering a level).
+            if (path != null && overworldWrapper?.Scene == Engine.Scene) {
                 return false;
             }
 
@@ -129,8 +126,8 @@ namespace Celeste.Mod.CollabUtils2.UI {
         }
 
         private static bool OnSetAmbience(On.Celeste.Audio.orig_SetAmbience orig, string path, bool startPlaying) {
-            if (skipSetAmbience) {
-                skipSetAmbience = false;
+            // while the in-game chapter panel / journal is open, block all ambience changes except for muting it (which happens when entering a level).
+            if (path != null && overworldWrapper?.Scene == Engine.Scene) {
                 return false;
             }
 
@@ -588,9 +585,6 @@ namespace Celeste.Mod.CollabUtils2.UI {
 
             opened = true;
 
-            skipSetMusic = true;
-            skipSetAmbience = true;
-
             Level level = player.Scene as Level;
             level.Entities.FindFirst<TotalStrawberriesDisplay>().Active = false;
 
@@ -621,7 +615,6 @@ namespace Celeste.Mod.CollabUtils2.UI {
         public static void Close(Level level, bool removeScene, bool resetPlayer) {
             if (removeScene) {
                 overworldWrapper?.RemoveSelf();
-                overworldWrapper = null;
 
                 if (lastArea != null && SaveData.Instance != null) {
                     SaveData.Instance.LastArea = lastArea.Value;
